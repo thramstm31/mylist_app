@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thomas Thrams mylist_app</title>
+    <script type="text/javascript" src="jquery.js"></script>
+
+    <style type="text/css">
+    	.list {
+    		font-family:"Courier New", Courier, monospace;
+			   font-size: 30px;
+			   height:100px;
+			   width: 300px;
+			   text-align:center;
+  				margin-left: auto;
+			   margin-right: auto;
+    	}
+
+	.button {
+			height:30px;
+		       width: 150px;
+	}
+
+    	.row {
+    		 border: solid 2px blue;
+		cursor:pointer;
+    	}
+
+	.hidden {
+		visibility: hidden;
+	}
+
+	.hidden2 {
+		visibility: hidden;
+	}
+
+	.format {
+		font-size:30px;
+	}
+    </style>
+
+    <script type="text/javascript">
+		$(document).ready(start);
+
+
+		function start(){
+		cells = $("#list td");
+		var row=1;
+		var onetime=1;
+		var currentposition=0;
+		$(cells).click(remove);
+
+			$('#newitem').click(function() {
+				if (onetime == 1){
+		  			$('#list').append( '<input type="text" id="new" name="new"/>');
+		  			$('#list').append('<button id = "add" type="button">Add new item</button>');
+		  			$('#list').append('<button id = "cancel"type="button">cancel</button>');
+					$('#newitem').removeClass("button");
+					$('#newitem').addClass("hidden");
+
+		  			$('#add').click(function(){
+						var contents = $("#new").val();
+						$('.hidden:first').html(contents);
+						$('.hidden:first').addClass("row");
+						$('.hidden:first').removeClass("hidden");
+
+						$('#new').remove();
+						$('#add').remove();
+						$('#cancel').remove();
+						$('#newitem').removeClass("hidden");
+						$('#newitem').addClass("button");
+						onetime = 1;
+					});
+
+					$('#cancel').click(function(){
+						$('#new').remove();
+						$('#add').remove();
+						$('#cancel').remove();
+						$('#newitem').removeClass("hidden");
+						$('#newitem').addClass("button");
+						onetime = 1;
+					});
+				}
+				onetime += 1;
+			});
+
+			$('#edit').click(function(){
+				$('#editlist').removeClass("hidden2");
+				$('#editlist').addClass("nothidden");
+				$('#list').removeClass("list");
+				$('#list').addClass("hidden");
+				$('#head').removeClass("format");
+				$('#head').addClass("hidden");
+				$('#newitem').removeClass("button");
+				$('#newitem').addClass("hidden");
+				$('#edit').removeClass("button");
+				$('#edit').addClass("hidden");
+
+				row = $('.row:first').html();
+
+				while(currentposition <= 9&& row != null){
+					$('.row:first').addClass("special");
+					$('.row:first').removeClass("row");
+
+					$('.hidden2:first').val(row);
+					$('.hidden2:first').addClass("edititem");
+					$('.hidden2:first').removeClass("hidden2");
+					row = $('.row:first').html();
+					currentposition++;
+				}
+
+				$('#save').click(function(){
+					currentposition = 0;
+					row = $('.edititem:first').val();
+
+					while(currentposition <=9 && row != null){
+						$('.edititem:first').addClass("hidden2");
+						$('.edititem:first').removeClass("edititem");
+
+						$('.special:first').html(row);
+						$('.special:first').addClass("row");
+						$('.special:first').removeClass("special");
+						row = $('.edititem:first').val();
+						currentposition++;
+					}
+
+					$('#editlist').removeClass("nothidden");
+					$('#editlist').addClass("hidden2");
+					$('#list').removeClass("hidden");
+					$('#list').addClass("list");
+					$('#head').removeClass("hidden");
+					$('#head').addClass("format");
+					$('#newitem').removeClass("hidden");
+					$('#newitem').addClass("button");
+					$('#edit').removeClass("hidden");
+					$('#edit').addClass("button");
+
+
+				});
+
+				$('#close').click(function(){
+					$('#editlist').removeClass("nothidden");
+					$('#editlist').addClass("hidden2");
+					$('#list').removeClass("hidden");
+					$('#list').addClass("list");
+					$('#head').removeClass("hidden");
+					$('#head').addClass("format");
+					$('#newitem').removeClass("hidden");
+					$('#newitem').addClass("button");
+					$('#edit').removeClass("hidden");
+					$('#edit').addClass("button");
+					currentposition = 0;
+
+					row = $('.edititem:first').html();
+
+					while(currentposition <=9 && row != null){
+						$('.special:first').addClass("row");
+						$('.special:first').removeClass("special");
+
+						$('.edititem:first').val(row);
+						$('.edititem:first').addClass("hidden2");
+						$('.edititem:first').removeClass("edititem");
+						row = $('.edititem:first').html();
+						currentposition++;
+					}
+				});
+			});
+
+			function remove (event){
+				$(this).html("");
+				$(this).removeClass("row");
+     				$(this).addClass("hidden");
+			}
+
+		}
+	</script>
+
+  </head>
+	<body>
+		<center><form id = "editlist" class = "hidden2">
+			<p>Items:</p>
+			<input type="text" class = "hidden2" id="item1"/><br />
+			<input type="text" class = "hidden2" id="item2"/><br />
+			<input type="text" class = "hidden2" id="item3"/><br />
+			<input type="text" class = "hidden2" id="item4"/><br />
+			<input type="text" class = "hidden2" id="item5"/><br />
+			<input type="text" class = "hidden2" id="item6"/><br />
+			<input type="text" class = "hidden2" id="item7"/><br />
+			<input type="text" class = "hidden2" id="item8"/><br />
+			<input type="text" class = "hidden2" id="item9"/><br />
+			<input type="text" class = "hidden2" id="item10"/>
+
+			<center><button id = "save" class = "button" type="button">Save</button></center>
+			<center><button id = "close" class = "button" type="button">Cancel</button></center>
+		</form></center>
+		<center><p id = "head"class = "format">Click the item to remove it from the list.</p></center>
+		<table id='list' class = 'list' >
+			<tr>
+				<td id = "row1" class = "row"> Get socks </td>
+			</tr>
+
+			<tr>
+				<td id = "row2"class = "row"> Get shoes </td>
+			</tr>
+
+			<tr>
+				<td id = "row3"class = "row"> Get food </td>
+			</tr>
+
+			<tr>
+				<td id ="row4" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row5" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row6" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row7" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row8" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row9" class = "hidden"></td>
+			</tr>
+
+			<tr>
+				<td id ="row10" class = "hidden"></td>
+			</tr>
+
+
+		</table>
+			<center><button id = "newitem" class = "button" type="button">Add another item</button></center>
+			<center><button id = "edit" class = "button" type="button">This List: Edit</button></center>
+	</body>
+
+</html>
